@@ -7,11 +7,24 @@ public class camAnimation : MonoBehaviour {
 	public Animation anim;
 	private bool isMoving;
 	public bool isRunning;
+	public GameObject player;
 
 	private bool left;
 	private bool right;
+	private bool isBeginning;
+	private ScriptableObject lookScript;
 
 	void CamAnimations() {
+
+		if(isBeginning) {
+			anim.Play("zoomOut");
+			isBeginning = false;
+		}
+
+		if(!anim.IsPlaying("zoomOut")) {
+			player.GetComponent<PlayerMovement>().enabled = true;
+		}
+
 		if(isRunning)
 		{
 			if(playerController.isGrounded == true) {
@@ -62,6 +75,9 @@ public class camAnimation : MonoBehaviour {
 	void Start () {
 		left = true;
 		right = false;
+		isBeginning = true;
+
+		player.GetComponent<PlayerMovement>().enabled = false;
 	}
 	
 	// Update is called once per frame
